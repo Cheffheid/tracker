@@ -15,17 +15,15 @@ class MusicController extends Zend_Controller_Action
 		/* Check for null values:
 			If both the row and order are available, use those
 			If only the row is available, use ascending default
-			Else just mark it null		
+			Else just sort by artist
 		*/
 		if( $this->_request->getParam('sort') != null && $this->_request->getParam('sortorder') != null ) {
 			$sortparams = $this->_request->getParam('sort') . " " . $this->_request->getParam('sortorder');
 		} else if( $this->_request->getParam('sort') != null && $this->_request->getParam('sortorder') == null ) {
 			$sortparams = $this->_request->getParam('sort') . " ASC";
 		} else {
-			$sortparams = null;
+			$sortparams = "artist ASC";
 		}
-		
-		
 		$this->view->albums = $albums->fetchAll(null, "$sortparams");
 		
 		/* Set view variables for the sortorder link
@@ -39,9 +37,12 @@ class MusicController extends Zend_Controller_Action
 				$this->view->titleorder = "DESC";
 				$this->view->artistorder = "ASC";				
 			}
-		} else {
+		} else if ( $this->_request->getParam('sortorder') === "DESC" ) {
 			$this->view->titleorder = "ASC";
 			$this->view->artistorder = "ASC";
+		} else {
+			$this->view->titleorder = "ASC";
+			$this->view->artistorder = "DESC";
 		}
 	}
 
