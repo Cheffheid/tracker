@@ -19,10 +19,10 @@
 		<td><?php echo $this->escape($album->title);?></td>
 		<td><?php echo $this->escape($album->artist);?></td>
 		<td>
-			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'edit', 'id'=>$album->$id )); ?>">Edit</a>
+			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'edit', 'id'=>$album->id )); ?>">Edit</a>
 		</td>
 		<td>
-			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'delete', 'id'=>$album->$id )); ?>">Delete</a>
+			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'delete', 'id'=>$album->id )); ?>">Delete</a>
 		</td>
 	</tr>
 	
