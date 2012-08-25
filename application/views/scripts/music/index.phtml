@@ -1,4 +1,35 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Music</b> and script/action name <b>index</b></p>
-</div>
+<?php
+	$this->title = "My Albums";
+	$this->headTitle($this->title);
+?>
+<p><a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'add' )); ?>">Add more</a></p>
+
+<?php if( count($this->albums) > 0) { ?>
+
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Artist</th>
+		<th>&nbsp;</th>
+	</tr>
+	
+	<?php foreach($this->albums as $album) : ?>
+	
+	<tr>
+		<td><?php echo $this->escape($album->title);?></td>
+		<td><?php echo $this->escape($album->artist);?></td>
+		<td>
+			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'edit', 'id'=>$album->$id )); ?>">Edit</a>
+		</td>
+		<td>
+			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'delete', 'id'=>$album->$id )); ?>">Delete</a>
+		</td>
+	</tr>
+	
+	<?php endforeach; ?>
+</table>
+
+<?php } else {
+	echo "<p>No albums found.</p>";
+} ?>
+	
