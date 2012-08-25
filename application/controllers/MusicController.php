@@ -25,8 +25,12 @@ class MusicController extends Zend_Controller_Action
 			$sortparams = null;
 		}
 		
+		
 		$this->view->albums = $albums->fetchAll(null, "$sortparams");
 		
+		/* Set view variables for the sortorder link
+			Basically, if a column is sorted ascending, set the variable to descending and vice versa
+		*/
 		if ( $this->_request->getParam('sortorder') === "ASC" ) {
 			if($this->_request->getParam('sort') === "artist") {
 				$this->view->titleorder = "ASC";
@@ -43,10 +47,13 @@ class MusicController extends Zend_Controller_Action
 
     public function addAction()
     {
+		// Create a new form to add stuff
         $form = new Application_Form_Album();
 		$form->submit->setLabel('Add');
 		$this->view->form = $form;
 		
+		// If a form was submitted to this page, validate it, add the new album and go back to the list
+		// Otherwise, just render the form again with the posted data
 		if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest()->getPost();
 		
@@ -65,6 +72,7 @@ class MusicController extends Zend_Controller_Action
 
     public function editAction()
     {
+		// Create the form for editing an entry
         $form = new Application_Form_Album();
 		$form->submit->setLabel('Save');
 		$this->view->form = $form;
@@ -72,6 +80,8 @@ class MusicController extends Zend_Controller_Action
 		if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest()->getPost();
 		
+		// If a form was submitted to this page, validate it, edit the album and go back to the list
+		// Otherwise, just render the form again with the posted data
 			if ($form->isValid($formData)) {
 				$id = (int)$form->getValue('id');
 				$artist = $form->getValue('artist');
@@ -94,6 +104,7 @@ class MusicController extends Zend_Controller_Action
 
     public function deleteAction()
     {
+		// Check if "Yes" was clicked at the confirmation, if so, delete the album else just return to the list
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') { 
