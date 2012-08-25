@@ -11,8 +11,35 @@ class MusicController extends Zend_Controller_Action
     public function indexAction()
     {
         $albums = new Application_Model_DbTable_Albums();
-		$this->view->albums = $albums->fetchAll();
-    }
+		
+		/* Check for null values:
+			If both the row and order are available, use those
+			If only the row is available, use ascending default
+			Else just mark it null		
+		*/
+		if( $this->_request->getParam('sort') != null && $this->_request->getParam('sortorder') != null ) {
+			$sortparams = $this->_request->getParam('sort') . " " . $this->_request->getParam('sortorder');
+		} else if( $this->_request->getParam('sort') != null && $this->_request->getParam('sortorder') == null ) {
+			$sortparams = $this->_request->getParam('sort') . " ASC";
+		} else {
+			$sortparams = null;
+		}
+		
+		$this->view->albums = $albums->fetchAll(null, "$sortparams");
+		
+		if ( $this->_request->getParam('sortorder') === "ASC" ) {
+			if($this->_request->getParam('sort') === "artist") {
+				$this->view->titleorder = "ASC";
+				$this->view->artistorder = "DESC";
+			} else {
+				$this->view->titleorder = "DESC";
+				$this->view->artistorder = "ASC";				
+			}
+		} else {
+			$this->view->titleorder = "ASC";
+			$this->view->artistorder = "ASC";
+		}
+	}
 
     public function addAction()
     {
@@ -33,7 +60,7 @@ class MusicController extends Zend_Controller_Action
 			} else {
 				$form->populate($formData);
 			}
-		}
+		}		
     }
 
     public function editAction()
@@ -81,9 +108,9 @@ class MusicController extends Zend_Controller_Action
             $this->view->album = $albums->getAlbum($id);
         } 
     }
-
-
 }
+
+
 
 
 

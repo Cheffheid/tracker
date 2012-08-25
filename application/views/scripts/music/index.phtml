@@ -8,16 +8,27 @@
 
 <table>
 	<tr>
-		<th>Title</th>
-		<th>Artist</th>
+		<th>
+			<a href="<?php echo $this->url(array('controller' => 'music')); ?>?sort=title&amp;sortorder=<?php echo $this->titleorder ?>">
+				Title
+			</a>
+		</th>
+		<th>
+			<a href="<?php echo $this->url(array('controller' => 'music')); ?>?sort=artist&amp;sortorder=<?php echo $this->artistorder ?>">
+				Artist
+			</a>
+		</th>
 		<th>&nbsp;</th>
 	</tr>
 	
 	<?php foreach($this->albums as $album) : ?>
 	
 	<tr>
-		<td><?php echo $this->escape($album->title);?></td>
-		<td><?php echo $this->escape($album->artist);?></td>
+		<td>
+			<?php echo $this->escape($album->title);?>
+		</td>
+		<td>
+			<?php echo $this->escape($album->artist);?></td>
 		<td>
 			<a href="<?php echo $this->url(array('controller' => 'music', 'action' => 'edit', 'id'=>$album->id )); ?>">Edit</a>
 		</td>
